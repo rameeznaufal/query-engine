@@ -1,4 +1,3 @@
-
 Project Overview:
 Facilitate the users to enter commands through command prompt and provide query results to the user by querying the data from the CSV files. SELECT, FROM, ORDERBY, COUNTBY, JOIN, TAKE(limit) queries are executed for this project
 Approach:
@@ -27,6 +26,9 @@ python main.py FROM city.csv
 python main.py FROM city.csv SELECT CityName,CityID
 python main.py FROM city.csv TAKE 5
 python main.py FROM city.csv ORDERBY CityPop TAKE 10
+python main.py FROM city.csv ORDERBY CityPop ASC TAKE 10
+python main.py FROM city.csv ORDERBY CityPop DESC TAKE 10
+python main.py FROM city.csv SELECT CityID,CityName ORDERBY CityName DESC TAKE 10
 python main.py FROM city.csv JOIN country.csv CountryCode
 python main.py FROM language.csv COUNTBY Language ORDERBY count TAKE 7
 

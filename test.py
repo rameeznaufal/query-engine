@@ -49,9 +49,9 @@ class TestQueries(unittest.TestCase):
         self.assertEqual(len(main.identifyquery(sys.argv)), 984)
         sys.argv = ['main.py', 'FROM', 'country.csv', 'ORDERBY', 'CountryName']
         self.assertEqual(len(main.identifyquery(sys.argv)), 239)
-        sys.argv = ['main.py', 'FROM', 'city.csv', 'ORDERBY', 'CityPop', 'TAKE', '10']
+        sys.argv = ['main.py', 'FROM', 'city.csv', 'ORDERBY', 'CityPop','DESC', 'TAKE', '10']
         self.assertEqual(main.identifyquery(sys.argv)[0][3], 10500000)
-        sys.argv = ['main.py', 'FROM', 'city.csv', 'ORDERBY', 'CityPop']
+        sys.argv = ['main.py', 'FROM', 'city.csv', 'ORDERBY', 'CityPop', 'DESC']
         self.assertEqual(main.identifyquery(sys.argv)[4078][3], 42)
 
     def test_ORDERBY_query_failure(self):
@@ -61,7 +61,7 @@ class TestQueries(unittest.TestCase):
         sys.argv = ['main.py', 'FROM', 'city.csv', 'ORDERBY', 'CityPop']
         self.assertNotEqual(main.identifyquery(sys.argv)[0][3], 1780000)
         # Checking if ordered by ascending order or descending order
-        sys.argv = ['main.py', 'FROM', 'city.csv', 'ORDERBY', 'CityPop']
+        sys.argv = ['main.py', 'FROM', 'city.csv', 'ORDERBY','CityPop', 'DESC']
         self.assertNotEqual(main.identifyquery(sys.argv)[0][3], 42)
         sys.argv = ['main.py', 'FROM', 'country.csv', 'AND', 'CountryName']
         self.assertNotEqual(main.identifyquery(sys.argv), 239)
@@ -156,15 +156,15 @@ class TestQueries(unittest.TestCase):
     def test_printselectedcolumns(self):
         csvdata = pandas.read_csv('city.csv')
         sys.argv = ['main.py', 'FROM', 'city.csv', 'SELECT', 'CityName']
-        self.assertEqual(len(main.printselectedcolumns(csvdata, len(sys.argv), sys.argv)), 4079)
+        self.assertEqual(len(main.printselectedcolumns(csvdata, len(sys.argv), sys.argv)) - 1, 4079)
         csvdata = pandas.read_csv('language.csv')
         sys.argv = ['main.py', 'FROM', 'language.csv', 'SELECT', 'Language']
-        self.assertEqual(len(main.printselectedcolumns(csvdata, len(sys.argv), sys.argv)), 984)
+        self.assertEqual(len(main.printselectedcolumns(csvdata, len(sys.argv), sys.argv)) - 1, 984)
         csvdata = pandas.read_csv('country.csv')
         sys.argv = ['main.py', 'FROM', 'country.csv', 'SELECT', 'CountryPop']
-        self.assertEqual(len(main.printselectedcolumns(csvdata, len(sys.argv), sys.argv)), 239)
+        self.assertEqual(len(main.printselectedcolumns(csvdata, len(sys.argv), sys.argv)) - 1, 239)
         sys.argv = ['main.py', 'FROM', 'country.csv', 'SELECT', 'CountryPop']
-        self.assertEqual(main.printselectedcolumns(csvdata, len(sys.argv), sys.argv)[0][0], 103000)
+        self.assertEqual(main.printselectedcolumns(csvdata, len(sys.argv), sys.argv)[1][0], 103000)
 
     def test_printheader(self):
         csvdata = pandas.read_csv('city.csv')
